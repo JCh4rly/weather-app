@@ -13,7 +13,11 @@ const CurrentLocation = () => <>
   </Box>
 </>
 
-const Header = () => {
+interface HeaderProps {
+  onChangeLocation: any,
+}
+
+const Header = ({ onChangeLocation }: HeaderProps) => {
   return <>
     <Box sx={{ display: 'flex', alignItems: 'center', minHeight: 100}}>
       <CurrentWeather />
