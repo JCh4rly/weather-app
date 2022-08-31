@@ -4,19 +4,20 @@ import { useEffect, useState } from "react";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import useLocations, { LocationItem } from "../hooks/UseLocations";
-//import useWeather from "../hooks/UseWeather";
+import useWeather from "../hooks/UseWeather";
 
 const MainPage = () => {
   const { locations, deviceLocation, deviceLocationLoading } = useLocations();
-  const [location, setLocation] = useState<LocationItem | null>();
-  //const { data, loading } = useWeather(location);
+  const [location, setLocation] = useState<LocationItem | null>(null);
+  const { data, loading } = useWeather(location);
 
   const onChangeLocation = (location: any) => setLocation(location);
 
   useEffect(() => {
     if (!deviceLocationLoading) {
       // Inicializar location con deviceLocation.
-      !location && setLocation(deviceLocation || locations[0]);
+      !location && setLocation(deviceLocation);
+      console.log(location);
       console.log(deviceLocation);
       // Inicializar lista de locations.
       //dispatch(setLocations(locations));
@@ -24,9 +25,12 @@ const MainPage = () => {
   }, [deviceLocation]);
 
 
-  //useEffect(() => {
-    //data && dispatch(setWeatherData({ data, location }));
-  //}, [data])
+  useEffect(() => {
+    if (data) {
+      //data && dispatch(setWeatherData({ data, location }));
+      console.log(data);
+    }
+  }, [data])
 
   return <>
     <Grid container spacing={1}>
