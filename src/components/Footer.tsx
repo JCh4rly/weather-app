@@ -1,8 +1,10 @@
+import { Box } from "@mui/material";
 import { useSelector } from "react-redux";
 
 const Footer = () => {
   const weatherData = useSelector((state: any) => state.weather.weatherData.data);
   const { list } = weatherData;
+  const count = list.length;
 
   let currentCategory = {
     date: '',
@@ -12,8 +14,9 @@ const Footer = () => {
     icon: '',
   }
   
-  const weatherItems = list.reduce((acc: any, { dt, dt_txt, main }: any) => {
-    const { temp_min, temp_max, description, icon } = main;
+  const weatherItems = list.reduce((acc: any, { dt, dt_txt, main, weather }: any, index: number) => {
+    const { temp_min, temp_max } = main;
+    const { description, icon } = weather[0];
     const [currentDate] = dt_txt.split(' ');
     
     if (currentDate !== currentCategory.date) {
@@ -37,15 +40,33 @@ const Footer = () => {
       currentCategory = { ...currentCategory, min: newMin, max: newMax };
     }
 
+    // Última categoría.
+    if (index === count - 1) {
+      acc = [ ...acc, currentCategory ];
+    }
+
     return acc;
   }, []);
 
-  const WeatherItem = ({ item: { date } }: any) => <>
-    { date }
-  </>
+  const TempView = ({ temp }: any) => <div>
+    { Math.round(temp) }°C
+  </div>
+
+  const WeatherItem = ({ item: { date, icon, min, max } }: any) => <div>
+    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <p>{ date }</p>
+      <img src={`http://openweathermap.org/img/wn/${icon}@2x.png`} alt="weather-logo"/>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+        <TempView temp={max} />
+        <TempView temp={min} />
+      </Box>
+    </Box>
+  </div>
 
   return <>
-    { weatherItems.map((item: any, index: number) => <WeatherItem key={index} item={item} />) }
+    <Box sx={{ display: 'flex', justifyContent: 'space-evenly' }}>
+      { weatherItems.map((item: any, index: number) => <WeatherItem key={index} item={item} />) }
+    </Box>
   </>
 }
 
