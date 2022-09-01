@@ -1,15 +1,26 @@
 import { Grid } from "@mui/material";
 import { Box } from "@mui/system";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import useLocations, { LocationItem } from "../hooks/UseLocations";
 import useWeather from "../hooks/UseWeather";
+import { setCurrentItem, setWeatherData } from "../slice/weatherSlice";
 
 const MainPage = () => {
   const { locations, deviceLocation, deviceLocationLoading } = useLocations();
+  const currentDate = useSelector((state: any) => state.weather.currentDate);
+  const currentItem = useSelector((state: any) => state.weather.currentItem);
   const [location, setLocation] = useState<LocationItem | null>(null);
   const { data, loading } = useWeather(location);
+  const dispatch = useDispatch();
+
+  const selectCurrentItem = (data: any) => {
+    if (!currentDate) {
+      return data.list[0];
+    }
+  };
 
   const onChangeLocation = (location: any) => setLocation(location);
 
@@ -17,20 +28,22 @@ const MainPage = () => {
     if (!deviceLocationLoading) {
       // Inicializar location con deviceLocation.
       !location && setLocation(deviceLocation);
-      console.log(location);
-      console.log(deviceLocation);
       // Inicializar lista de locations.
       //dispatch(setLocations(locations));
     }
   }, [deviceLocation]);
 
-
   useEffect(() => {
     if (data) {
-      //data && dispatch(setWeatherData({ data, location }));
+      dispatch(setWeatherData({ data, location }));
+      dispatch(setCurrentItem(selectCurrentItem(data)));
       console.log(data);
     }
   }, [data])
+
+  if (!currentItem) {
+    return null;
+  }
 
   return <>
     <Grid container spacing={1}>
