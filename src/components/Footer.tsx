@@ -13,7 +13,7 @@ const Footer = () => {
     description: '',
     icon: '',
   }
-  
+
   const weatherItems = list.reduce((acc: any, { dt, dt_txt, main, weather }: any, index: number) => {
     const { temp_min, temp_max } = main;
     const { description, icon } = weather[0];
@@ -52,11 +52,16 @@ const Footer = () => {
     { Math.round(temp) }°C
   </div>
 
+  const formatDate = (date: string) => {
+    const [y, m, d] = date.split("-");
+    return `${d}/${m}/${y}`;
+  }
+
   const WeatherItem = ({ item: { date, icon, min, max } }: any) => <>
     <Card>
       <CardContent>
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <p>{ date }</p>
+          <p>{ formatDate(date) }</p>
           <img src={`http://openweathermap.org/img/wn/${icon}@2x.png`} alt="weather-logo"/>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
             <TempView temp={max} />

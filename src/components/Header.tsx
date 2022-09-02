@@ -14,6 +14,7 @@ const Header = () => {
   const { main, weather, wind, visibility } = currentItem;
   const { city } = weatherData;
   const description = weather[0].description;
+  const now = new Date().toLocaleString();
 
   const CurrentWeather = () => <>
     <Box sx={{ display: 'flex', alignContent: 'center' }}>
@@ -45,12 +46,19 @@ const Header = () => {
     </Box>
   </>
   
+  const formatDate = (date: string) => {
+    const [dateStr, timeStr] = date.split(',')
+    const [m, d, y] = dateStr.split('/');
+
+    return `${d.padStart(2, '0')}/${m.padStart(2, '0')}/${y}, ${timeStr}`;
+  }
+
   return <>
     <Card sx={{ margin: 2 }}>
       <CardHeader
         action={<LocationSelect />}
-        title={city.name}
-        subheader={new Date().toLocaleString()}
+        title={`${city?.name}, ${city?.country}`}
+        subheader={formatDate(now)}
       />
       <CardContent>
         <Box sx={{ display: 'flex', justifyContent: 'center', minHeight: 100}}>
