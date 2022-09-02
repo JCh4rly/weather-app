@@ -1,4 +1,5 @@
 import { useGeolocated } from "react-geolocated";
+import { locations } from "../constants/locations";
 
 export interface LocationItem {
   name: string,
@@ -38,10 +39,11 @@ const useLocations = (): UseLocationsProps => {
   }
 
   const { latitude, longitude } = coords;
-
+  const deviceLocation = { name: 'Current location', latitude, longitude };
+  
   return {
-    locations: [], 
-    deviceLocation: { name: 'Current location', latitude, longitude }, 
+    locations: [deviceLocation, ...locations],
+    deviceLocation, 
     deviceLocationLoading: false,
   }
 }

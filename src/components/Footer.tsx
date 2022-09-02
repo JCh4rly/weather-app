@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Card, CardContent } from "@mui/material";
 import { useSelector } from "react-redux";
 
 const Footer = () => {
@@ -52,16 +52,20 @@ const Footer = () => {
     { Math.round(temp) }°C
   </div>
 
-  const WeatherItem = ({ item: { date, icon, min, max } }: any) => <div>
-    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      <p>{ date }</p>
-      <img src={`http://openweathermap.org/img/wn/${icon}@2x.png`} alt="weather-logo"/>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-        <TempView temp={max} />
-        <TempView temp={min} />
-      </Box>
-    </Box>
-  </div>
+  const WeatherItem = ({ item: { date, icon, min, max } }: any) => <>
+    <Card>
+      <CardContent>
+        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <p>{ date }</p>
+          <img src={`http://openweathermap.org/img/wn/${icon}@2x.png`} alt="weather-logo"/>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+            <TempView temp={max} />
+            <TempView temp={min} />
+          </Box>
+        </Box>
+      </CardContent>
+    </Card>
+  </>
 
   return <>
     <Box sx={{ display: 'flex', justifyContent: 'space-evenly' }}>

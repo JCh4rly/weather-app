@@ -5,6 +5,8 @@ export const weatherSlice = createSlice({
   initialState: {
     currentDate: null,
     currentItem: null,
+    location: null,
+    locations: [],
     weatherData: {
       location: null,
       data: null,
@@ -20,9 +22,16 @@ export const weatherSlice = createSlice({
     setCurrentDate: (state, action) => {
       state.currentDate = action.payload
     },
+    setLocations: (state, action) => {
+      state.locations = action.payload
+    },
+    setCurrentLocation: (state, action) => {      
+      state.location = action.payload
+    },
   },
 })
 
-export const { setWeatherData, setCurrentItem, setCurrentDate } = weatherSlice.actions
+export const { setWeatherData, setCurrentItem, setCurrentDate, 
+  setLocations, setCurrentLocation } = weatherSlice.actions
 
 export default weatherSlice.reducer

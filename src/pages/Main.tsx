@@ -1,43 +1,40 @@
 import { Grid } from "@mui/material";
 import { Box } from "@mui/system";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
-import useLocations, { LocationItem } from "../hooks/UseLocations";
+import useLocations from "../hooks/UseLocations";
 import useWeather from "../hooks/UseWeather";
-import { setCurrentItem, setWeatherData } from "../slice/weatherSlice";
+import { setCurrentItem, setCurrentLocation, setLocations, setWeatherData } from "../slice/weatherSlice";
 
 const MainPage = () => {
   const { locations, deviceLocation, deviceLocationLoading } = useLocations();
   const currentDate = useSelector((state: any) => state.weather.currentDate);
   const currentItem = useSelector((state: any) => state.weather.currentItem);
-  const [location, setLocation] = useState<LocationItem | null>(null);
+  const location = useSelector((state: any) => state.weather.location);
   const { data, loading } = useWeather(location);
   const dispatch = useDispatch();
 
   const selectCurrentItem = (data: any) => {
-    if (!currentDate) {
-      return data.list[0];
-    }
+    return data.list[0];
+    
   };
-
-  const onChangeLocation = (location: any) => setLocation(location);
-
+  
   useEffect(() => {
-    if (!deviceLocationLoading) {
+    if (!deviceLocationLoading && deviceLocation) {      
       // Inicializar location con deviceLocation.
-      !location && setLocation(deviceLocation);
+      !location && dispatch(setCurrentLocation(deviceLocation));
       // Inicializar lista de locations.
-      //dispatch(setLocations(locations));
+      dispatch(setLocations(locations));
     }
   }, [deviceLocation]);
 
   useEffect(() => {
+    console.log(data);
     if (data) {
       dispatch(setWeatherData({ data, location }));
       dispatch(setCurrentItem(selectCurrentItem(data)));
-      console.log(data);
     }
   }, [data])
 
@@ -50,7 +47,7 @@ const MainPage = () => {
       <Grid item md={3}></Grid>
       <Grid item sm={12} md={6}>
         <Box>
-          <Header onChangeLocation={onChangeLocation} />
+          <Header/>
           <Footer/>
         </Box>
       </Grid>
