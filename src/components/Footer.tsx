@@ -5,6 +5,7 @@ const Footer = () => {
   const weatherData = useSelector((state: any) => state.weather.weatherData.data);
   const { list } = weatherData;
   const count = list.length;
+  let refTime = '';
 
   let currentCategory = {
     date: '',
@@ -17,7 +18,13 @@ const Footer = () => {
   const weatherItems = list.reduce((acc: any, { dt, dt_txt, main, weather }: any, index: number) => {
     const { temp_min, temp_max } = main;
     const { description, icon } = weather[0];
-    const [currentDate] = dt_txt.split(' ');
+    const [currentDate, currentTime] = dt_txt.split(' ');
+
+    // refTime es la hora del primer corte disponible
+    // en la lista de resultados.
+    if (refTime === '') {
+      refTime = currentTime;
+    }
     
     if (currentDate !== currentCategory.date) {
       if (currentCategory.date !== '') {
@@ -32,12 +39,19 @@ const Footer = () => {
         icon,
       };
     } else {
-      // Actualizar min y max.
+      // Calcular temp min y max de cada categoría.
       const { min, max } = currentCategory;
       const newMin = temp_min < min ? temp_min : min;
       const newMax = temp_max > max ? temp_max : max;
-      
+
       currentCategory = { ...currentCategory, min: newMin, max: newMax };
+
+      // Asignar icon y description correspondientes
+      // al refTime en cada categoría.
+
+      if (currentTime <= refTime) {
+        currentCategory = { ...currentCategory, description, icon };
+      }
     }
 
     // Última categoría.
