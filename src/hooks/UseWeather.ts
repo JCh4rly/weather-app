@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { LocationItem } from "./UseLocations"
 import sampleResponse from "../sampleResponse.json"
+import { getWeather } from "../constants/endpoints";
 
 interface UseWeatherProps {
   data: any,
@@ -16,11 +17,11 @@ const useWeather = (location: LocationItem | null): UseWeatherProps => {
   useEffect(() => {
     if (location) {
       setLoading(true);
-      // fetch(getWeather(location))
-      //   .then(res => res.json())
-      //   .then(data => setWeatherData(data))
-      //   .catch(error => setErrors(error))
-      //   .finally(() => setLoading(false));
+      //  fetch(getWeather(location))
+      //    .then(res => res.json())
+      //    .then(data => setWeatherData(data))
+      //    .catch(error => setErrors(error))
+      //    .finally(() => setLoading(false));
       new Promise((resolve) => {
         resolve(sampleResponse)
       })

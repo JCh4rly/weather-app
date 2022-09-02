@@ -39,8 +39,8 @@ const useLocations = (): UseLocationsProps => {
   }
 
   const { latitude, longitude } = coords;
-  const deviceLocation = { name: 'Current location', latitude, longitude };
-  
+  const deviceLocation = { name: 'Ubicación actual', latitude, longitude };
+
   return {
     locations: [deviceLocation, ...locations],
     deviceLocation, 
