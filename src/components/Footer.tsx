@@ -1,67 +1,12 @@
 import { Box, Card, CardContent } from "@mui/material";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setCurrentCategory } from "../slice/weatherSlice";
 
 const Footer = () => {
-  const weatherData = useSelector((state: any) => state.weather.weatherData.data);
-  const { list } = weatherData;
-  const count = list.length;
-  let refTime = '';
-
-  let currentCategory = {
-    date: '',
-    min: 0,
-    max: 0,
-    description: '',
-    icon: '',
-  }
-
-  const weatherItems = list.reduce((acc: any, { dt, dt_txt, main, weather }: any, index: number) => {
-    const { temp_min, temp_max } = main;
-    const { description, icon } = weather[0];
-    const [currentDate, currentTime] = dt_txt.split(' ');
-
-    // refTime es la hora del primer corte disponible
-    // en la lista de resultados.
-    if (refTime === '') {
-      refTime = currentTime;
-    }
-    
-    if (currentDate !== currentCategory.date) {
-      if (currentCategory.date !== '') {
-        acc = [ ...acc, currentCategory ];
-      }
-
-      currentCategory = {
-        date: currentDate,
-        min: temp_min,
-        max: temp_max,
-        description,
-        icon,
-      };
-    } else {
-      // Calcular temp min y max de cada categoría.
-      const { min, max } = currentCategory;
-      const newMin = temp_min < min ? temp_min : min;
-      const newMax = temp_max > max ? temp_max : max;
-
-      currentCategory = { ...currentCategory, min: newMin, max: newMax };
-
-      // Asignar icon y description correspondientes
-      // al refTime en cada categoría.
-
-      if (currentTime <= refTime) {
-        currentCategory = { ...currentCategory, description, icon };
-      }
-    }
-
-    // Última categoría.
-    if (index === count - 1) {
-      acc = [ ...acc, currentCategory ];
-    }
-
-    return acc;
-  }, []);
-
+  const dispatch = useDispatch();
+  const weatherCategories = useSelector((state: any) => state.weather.categories);
+  const currentCategory = useSelector((state: any) => state.weather.currentCategory);
+  
   const TempView = ({ temp }: any) => <div>
     { Math.round(temp) }°C
   </div>
@@ -71,8 +16,10 @@ const Footer = () => {
     return `${d}/${m}/${y}`;
   }
 
-  const WeatherItem = ({ item: { date, icon, min, max } }: any) => <>
-    <Card>
+  const handleSelect = (date: string) => dispatch(setCurrentCategory(date));
+
+  const WeatherItem = ({ item: { date, icon, min, max }, selected, onSelect }: any) => <>
+    <Card sx={{ background: selected ? '#ddd' : '', cursor: 'pointer' }} onClick={() => onSelect(date)}>
       <CardContent>
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <p>{ formatDate(date) }</p>
@@ -88,7 +35,14 @@ const Footer = () => {
 
   return <>
     <Box sx={{ display: 'flex', justifyContent: 'space-evenly' }}>
-      { weatherItems.map((item: any, index: number) => <WeatherItem key={index} item={item} />) }
+      { weatherCategories.map((item: any, index: number) => 
+        <WeatherItem 
+          key={index} 
+          item={item} 
+          selected={item.date === currentCategory}
+          onSelect={handleSelect}
+        />) 
+      }
     </Box>
   </>
 }

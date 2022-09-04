@@ -3,7 +3,8 @@ import { createSlice } from '@reduxjs/toolkit'
 export const weatherSlice = createSlice({
   name: 'weather',
   initialState: {
-    currentDate: null,
+    currentCategory: null,
+    categories: [],
     currentItem: null,
     location: null,
     locations: [],
@@ -13,14 +14,17 @@ export const weatherSlice = createSlice({
     }
   },
   reducers: {
+    setWeatherCategories: (state, action) => {
+      state.categories = action.payload
+    },
     setWeatherData: (state, action) => {
       state.weatherData = action.payload
     },
     setCurrentItem: (state, action) => {
       state.currentItem = action.payload
     },
-    setCurrentDate: (state, action) => {
-      state.currentDate = action.payload
+    setCurrentCategory: (state, action) => {
+      state.currentCategory = action.payload
     },
     setLocations: (state, action) => {
       state.locations = action.payload
@@ -31,7 +35,7 @@ export const weatherSlice = createSlice({
   },
 })
 
-export const { setWeatherData, setCurrentItem, setCurrentDate, 
-  setLocations, setCurrentLocation } = weatherSlice.actions
+export const { setWeatherData, setCurrentItem, setCurrentCategory, 
+  setLocations, setCurrentLocation, setWeatherCategories } = weatherSlice.actions
 
 export default weatherSlice.reducer
