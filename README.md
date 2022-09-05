@@ -89,4 +89,6 @@ la información de ese día
 - Permitir cambio de unidades (Fahrenheit)
 - Soporte multi-lenguage
 - Sincronización de timezone
+- Transiciones suaves entre una ubicación y otra
+- Animaciones
 
