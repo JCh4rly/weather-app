@@ -92,5 +92,6 @@ la información de ese día
 - Soporte multi-lenguage
 - Sincronización de timezone
 - Transiciones suaves entre una ubicación y otra
+- Usar skeleton para la carga de imágenes
 - Animaciones
 
