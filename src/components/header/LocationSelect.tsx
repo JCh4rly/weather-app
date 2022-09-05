@@ -1,6 +1,6 @@
 import { IconButton, Menu, MenuItem } from "@mui/material";
 import { MouseEvent, useState } from "react";
-import MoreVertIcon from '@mui/icons-material/LocationOn';
+import LocationIcon from '@mui/icons-material/LocationOn';
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentLocation } from "../../slice/weatherSlice";
 
@@ -26,7 +26,7 @@ const LocationSelect = () => {
 
   return <>
     <IconButton aria-label="settings" onClick={handleClick}>
-      <MoreVertIcon />
+      <LocationIcon />
     </IconButton>
     <Menu
       id="basic-menu"

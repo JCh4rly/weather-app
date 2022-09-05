@@ -7,10 +7,7 @@ export const weatherSlice = createSlice({
     categories: [],
     location: null,
     locations: [],
-    weatherData: {
-      location: null,
-      data: null,
-    }
+    weatherData: null,
   },
   reducers: {
     setWeatherCategories: (state, action) => {

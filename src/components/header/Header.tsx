@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CircularProgress } from "@mui/material";
 import { Box } from "@mui/system";
 import { useSelector } from "react-redux";
-import LocationSelect from "./header/LocationSelect";
+import LocationSelect from "./LocationSelect";
 import WindIcon from '@mui/icons-material/Air';
 import HumidityIcon from '@mui/icons-material/Grain';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -12,7 +12,7 @@ interface HeaderProps {
 }
 
 const Header = ({ loading }: HeaderProps) => {
-  const weatherData = useSelector((state: any) => state.weather.weatherData.data);
+  const weatherData = useSelector((state: any) => state.weather.weatherData);
   const currentCategory = useSelector((state: any) => state.weather.currentCategory);
   const { currentItem } = currentCategory;
   const { main, weather, wind, visibility } = currentItem;
@@ -53,8 +53,9 @@ const Header = ({ loading }: HeaderProps) => {
   const formatDate = (date: string) => {
     const [dateStr, timeStr] = date.split(',')
     const [m, d, y] = dateStr.split('/');
+    const [h] = timeStr.split(':');
 
-    return `${d.padStart(2, '0')}/${m.padStart(2, '0')}/${y}, ${timeStr}`;
+    return `${d.padStart(2, '0')}/${m.padStart(2, '0')}/${y}, ${h.padStart(2, '0')}:00:00`;
   }
 
   return <>

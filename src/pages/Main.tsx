@@ -3,7 +3,7 @@ import { Box } from "@mui/system";
 import { ReactElement, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Footer from "../components/Footer";
-import Header from "../components/Header";
+import Header from "../components/header/Header";
 import useLocations from "../hooks/UseLocations";
 import useWeather from "../hooks/UseWeather";
 import { setCurrentCategory, setCurrentLocation, setLocations, setWeatherCategories, setWeatherData } from "../slice/weatherSlice";
@@ -26,14 +26,13 @@ const MainPage = () => {
   }, [deviceLocation]);
 
   useEffect(() => {
-    console.log(data);
     if (data) {
       const categories = getWeatherCategories(data);
       const currentCategory = categories[0];
 
       dispatch(setWeatherCategories(categories));
       dispatch(setCurrentCategory(currentCategory));
-      dispatch(setWeatherData({ data, location }));
+      dispatch(setWeatherData(data));
     }
   }, [data])
 

@@ -8,6 +8,7 @@ export interface WeatherCategory {
 
 const getCurrentTime = () => `${new Date().getHours()}:00:00`;
 
+// Agrupar los items de pronóstico en categorías.
 export const getWeatherCategories = (data: any) => {
   const { list } = data;
   const count = list.length;

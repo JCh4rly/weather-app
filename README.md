@@ -54,3 +54,26 @@ readme
 - Etiquetas semanticas
 - Deploy en plataforma web (vercel, netlify, GH Pages)
 - Configuración de Linter
+
+# Descripción de la aplicación
+
+## Características del proyecto
+
+- Realizado en ReactJs + Typescript usando create-react-app
+- Redux para gestión del estado
+- Material-ui como librería de componentes
+
+## Cómo instalar la aplicación
+
+- Clonar el proyecto con `git clone https://github.com/JCh4rly/weather-app.git`
+- Instalar dependencias con `git i`
+- Iniciar la aplicación con `npm start`
+
+## Funcionamiento
+
+- Al iniciar la aplicación intenta obtener la ubicación actual mediante geolocalización
+- Luego muestra el pronóstico para la ubicación actual incluyendo temperatura, viento, humedad y visibilidad
+- En la parte inferior se muestra el pronóstico extendido para 5 días, al seleccionar cada uno se muestra
+la información de ese día
+- En la parte superior derecha se puede seleccionar otra ubicación predefinida
+

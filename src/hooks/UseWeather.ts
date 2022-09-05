@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { LocationItem } from "./UseLocations"
-import sampleResponse from "../sampleResponse.json"
+//import sampleResponse from "../sampleResponse.json"
 import { getWeather } from "../constants/endpoints";
 
 interface UseWeatherProps {
@@ -17,21 +17,21 @@ const useWeather = (location: LocationItem | null): UseWeatherProps => {
   useEffect(() => {
     if (location) {
       setLoading(true);
-      //  fetch(getWeather(location))
-      //   .then(res => {
-      //     if (!res || !res.ok) {
-      //       throw new Error('Se ha producido un error inesperado.');
-      //     }
-      //     return res.json();
-      //   })
-      //   .then(data => setWeatherData(data))
-      //   .catch(error => setErrors(error))
-      //   .finally(() => setLoading(false));
-      new Promise((resolve) => {
-        resolve(sampleResponse)
-      })
-        .then((data: any) => setWeatherData(data))
+       fetch(getWeather(location))
+        .then(res => {
+          if (!res || !res.ok) {
+            throw new Error('Se ha producido un error inesperado.');
+          }
+          return res.json();
+        })
+        .then(data => setWeatherData(data))
+        .catch(error => setErrors(error))
         .finally(() => setLoading(false));
+      // new Promise((resolve) => {
+      //   resolve(sampleResponse)
+      // })
+      //   .then((data: any) => setWeatherData(data))
+      //   .finally(() => setLoading(false));
     }
   }, [location])
 
