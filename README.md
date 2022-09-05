@@ -62,6 +62,8 @@ readme
 - Realizado en ReactJs + Typescript usando create-react-app
 - Redux para gestión del estado
 - Material-ui como librería de componentes
+- Open Weather Map para la obtención de datos del clima
+- Uso de custom hooks para obtener ubicaciones (useLocations) y realizar fetch de datos (useWeather)
 
 ## Cómo instalar la aplicación
 
@@ -76,4 +78,15 @@ readme
 - En la parte inferior se muestra el pronóstico extendido para 5 días, al seleccionar cada uno se muestra
 la información de ese día
 - En la parte superior derecha se puede seleccionar otra ubicación predefinida
+
+## Pendientes y deuda técnica
+
+- Realizar tests unitarios exhaustivos
+- Realizar tests de stress
+- Agregar soporte responsive (tablets y celulares)
+- Agregar charts para mostrar la progresión del clima
+- Permitir agregar nuevas ubicaciones mediante un mapa o búsqueda incremental
+- Permitir cambio de unidades (Fahrenheit)
+- Soporte multi-lenguage
+- Sincronización de timezone
 
