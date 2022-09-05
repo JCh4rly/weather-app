@@ -6,21 +6,16 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import useLocations from "../hooks/UseLocations";
 import useWeather from "../hooks/UseWeather";
-import { setCurrentCategory, setCurrentItem, setCurrentLocation, setLocations, setWeatherCategories, setWeatherData } from "../slice/weatherSlice";
+import { setCurrentCategory, setCurrentLocation, setLocations, setWeatherCategories, setWeatherData } from "../slice/weatherSlice";
 import { getWeatherCategories } from "../util/util";
 
 const MainPage = () => {
   const { locations, deviceLocation, deviceLocationLoading } = useLocations();
-  const currentItem = useSelector((state: any) => state.weather.currentItem);
+  const currentCategory = useSelector((state: any) => state.weather.currentCategory);
   const location = useSelector((state: any) => state.weather.location);
   const { data, loading } = useWeather(location);
   const dispatch = useDispatch();
 
-  const selectCurrentItem = (data: any) => {
-    return data.list[0];
-    
-  };
-  
   useEffect(() => {
     if (!deviceLocationLoading && deviceLocation) {      
       // Inicializar location con deviceLocation.
@@ -34,15 +29,15 @@ const MainPage = () => {
     console.log(data);
     if (data) {
       const categories = getWeatherCategories(data);
+      const currentCategory = categories[0];
 
       dispatch(setWeatherCategories(categories));
-      dispatch(setCurrentCategory(categories[0]?.date));
+      dispatch(setCurrentCategory(currentCategory));
       dispatch(setWeatherData({ data, location }));
-      dispatch(setCurrentItem(selectCurrentItem(data)));
     }
   }, [data])
 
-  if (!currentItem) {
+  if (!currentCategory) {
     return null;
   }
 

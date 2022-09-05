@@ -5,7 +5,6 @@ export const weatherSlice = createSlice({
   initialState: {
     currentCategory: null,
     categories: [],
-    currentItem: null,
     location: null,
     locations: [],
     weatherData: {
@@ -20,9 +19,6 @@ export const weatherSlice = createSlice({
     setWeatherData: (state, action) => {
       state.weatherData = action.payload
     },
-    setCurrentItem: (state, action) => {
-      state.currentItem = action.payload
-    },
     setCurrentCategory: (state, action) => {
       state.currentCategory = action.payload
     },
@@ -35,7 +31,7 @@ export const weatherSlice = createSlice({
   },
 })
 
-export const { setWeatherData, setCurrentItem, setCurrentCategory, 
-  setLocations, setCurrentLocation, setWeatherCategories } = weatherSlice.actions
+export const { setWeatherData, setCurrentCategory, setLocations, 
+  setCurrentLocation, setWeatherCategories } = weatherSlice.actions
 
 export default weatherSlice.reducer

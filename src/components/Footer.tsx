@@ -16,17 +16,17 @@ const Footer = () => {
     return `${d}/${m}/${y}`;
   }
 
-  const handleSelect = (date: string) => dispatch(setCurrentCategory(date));
+  const handleSelect = (item: any) => dispatch(setCurrentCategory(item));
 
-  const WeatherItem = ({ item: { date, icon, min, max }, selected, onSelect }: any) => <>
-    <Card sx={{ background: selected ? '#ddd' : '', cursor: 'pointer' }} onClick={() => onSelect(date)}>
+  const WeatherItem = ({ item, selected, onSelect }: any) => <>
+    <Card sx={{ background: selected ? '#ddd' : '', cursor: 'pointer' }} onClick={() => onSelect(item)}>
       <CardContent>
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <p>{ formatDate(date) }</p>
-          <img src={`http://openweathermap.org/img/wn/${icon}@2x.png`} alt="weather-logo"/>
+          <p>{ formatDate(item.date) }</p>
+          <img src={`http://openweathermap.org/img/wn/${item.currentItem?.weather[0]?.icon}@2x.png`} alt="weather-logo"/>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-            <TempView temp={max} />
-            <TempView temp={min} />
+            <TempView temp={item.max} />
+            <TempView temp={item.min} />
           </Box>
         </Box>
       </CardContent>
@@ -39,7 +39,7 @@ const Footer = () => {
         <WeatherItem 
           key={index} 
           item={item} 
-          selected={item.date === currentCategory}
+          selected={item.date === currentCategory.date}
           onSelect={handleSelect}
         />) 
       }

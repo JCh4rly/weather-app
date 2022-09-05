@@ -8,9 +8,9 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import TempIcon from '@mui/icons-material/Thermostat';
 
 const Header = () => {
-  
   const weatherData = useSelector((state: any) => state.weather.weatherData.data);
-  const currentItem = useSelector((state: any) => state.weather.currentItem);
+  const currentCategory = useSelector((state: any) => state.weather.currentCategory);
+  const { currentItem } = currentCategory;
   const { main, weather, wind, visibility } = currentItem;
   const { city } = weatherData;
   const description = weather[0].description;
@@ -18,8 +18,8 @@ const Header = () => {
 
   const CurrentWeather = () => <>
     <Box sx={{ display: 'flex', alignContent: 'center' }}>
-      <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-        <img src={`http://openweathermap.org/img/wn/${weather[0].icon}@2x.png`} alt="weather-logo"/>
+      <Box sx={{ display: 'flex', flexDirection: 'column', width: 120 }}>
+        <img src={`http://openweathermap.org/img/wn/${weather[0].icon}@2x.png`} alt="weather-logo" width="100%" />
         <Box sx={{ textAlign: 'center' }}>
           <div>{ description.charAt(0).toUpperCase() + description.slice(1) }</div>
         </Box>

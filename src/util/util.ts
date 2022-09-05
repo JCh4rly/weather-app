@@ -1,38 +1,53 @@
+export interface WeatherCategory {
+  date: string,
+  min: number,
+  max: number,
+  currentItem: any,
+  weatherItems: any[],
+}
+
+const getCurrentTime = () => `${new Date().getHours()}:00:00`;
+
 export const getWeatherCategories = (data: any) => {
   const { list } = data;
   const count = list.length;
-  let refTime = '';
+  const refTime = getCurrentTime();
 
-  let currentCategory = {
+  let currentCategory: WeatherCategory = {
     date: '',
     min: 0,
     max: 0,
-    description: '',
-    icon: '',
+    currentItem: null,
+    weatherItems: [],
   }
 
-  return list.reduce((acc: any, { dt, dt_txt, main, weather }: any, index: number) => {
+  return list.reduce((acc: any, item: any, index: number) => {
+    const { dt_txt, main } = item;
     const { temp_min, temp_max } = main;
-    const { description, icon } = weather[0];
     const [currentDate, currentTime] = dt_txt.split(' ');
 
-    // refTime es la hora del primer corte disponible
-    // en la lista de resultados.
-    if (refTime === '') {
-      refTime = currentTime;
-    }
-    
+    const addCurrentItem = () => currentCategory = { ...currentCategory, currentItem: item };
+
+    const addCurrentCategory = () => {
+      // Asegurar existencia de currentItem.
+      if (!currentCategory.currentItem) {
+        addCurrentItem();
+      }
+
+      acc = [ ...acc, currentCategory ]
+    };
+
     if (currentDate !== currentCategory.date) {
       if (currentCategory.date !== '') {
-        acc = [ ...acc, currentCategory ];
+        addCurrentCategory();
       }
 
       currentCategory = {
         date: currentDate,
         min: temp_min,
         max: temp_max,
-        description,
-        icon,
+        currentItem: null,
+        weatherItems: [item]
       };
     } else {
       // Calcular temp min y max de cada categoría.
@@ -42,17 +57,23 @@ export const getWeatherCategories = (data: any) => {
 
       currentCategory = { ...currentCategory, min: newMin, max: newMax };
 
-      // Asignar icon y description correspondientes
-      // al refTime en cada categoría.
+      // Asignar currentItem si el item actual cubre el 
+      // pronóstico para la hora actual.
 
-      if (currentTime <= refTime) {
-        currentCategory = { ...currentCategory, description, icon };
+      if (currentTime >= refTime) {
+        addCurrentItem();
       }
+
+      // Agregar el item actual a la lista
+      // en la categoría actual.
+
+      const { weatherItems } = currentCategory;
+      currentCategory = { ...currentCategory, weatherItems: [...weatherItems, item] }
     }
 
     // Última categoría.
     if (index === count - 1) {
-      acc = [ ...acc, currentCategory ];
+      addCurrentCategory();
     }
 
     return acc;
