@@ -18,10 +18,15 @@ const useWeather = (location: LocationItem | null): UseWeatherProps => {
     if (location) {
       setLoading(true);
       //  fetch(getWeather(location))
-      //    .then(res => res.json())
-      //    .then(data => setWeatherData(data))
-      //    .catch(error => setErrors(error))
-      //    .finally(() => setLoading(false));
+      //   .then(res => {
+      //     if (!res || !res.ok) {
+      //       throw new Error('Se ha producido un error inesperado.');
+      //     }
+      //     return res.json();
+      //   })
+      //   .then(data => setWeatherData(data))
+      //   .catch(error => setErrors(error))
+      //   .finally(() => setLoading(false));
       new Promise((resolve) => {
         resolve(sampleResponse)
       })
@@ -41,7 +46,7 @@ const useWeather = (location: LocationItem | null): UseWeatherProps => {
   return {
     data: weatherData,
     loading,
-    errors: null,
+    errors,
   }
 }
 

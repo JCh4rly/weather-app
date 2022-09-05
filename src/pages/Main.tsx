@@ -1,6 +1,6 @@
-import { Grid } from "@mui/material";
+import { Alert, Card, CardContent, CircularProgress, Grid } from "@mui/material";
 import { Box } from "@mui/system";
-import { useEffect } from "react";
+import { ReactElement, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
@@ -13,7 +13,7 @@ const MainPage = () => {
   const { locations, deviceLocation, deviceLocationLoading } = useLocations();
   const currentCategory = useSelector((state: any) => state.weather.currentCategory);
   const location = useSelector((state: any) => state.weather.location);
-  const { data, loading } = useWeather(location);
+  const { data, loading, errors } = useWeather(location);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -37,20 +37,61 @@ const MainPage = () => {
     }
   }, [data])
 
+  interface LayoutProps {
+    children: ReactElement | ReactElement[]
+  }
+
+  const Layout = ({ children }: LayoutProps) => <>
+    <Grid container spacing={1} sx={{ margin: 2 }}>
+      <Grid item md={3}></Grid>
+      <Grid item sm={12} md={6}>
+        {children}
+      </Grid>
+    </Grid>
+  </>
+
+  if (!deviceLocation && !deviceLocationLoading) {
+    return <>
+      <Layout>
+        <Card>
+          <CardContent>
+            <Alert severity="error">No es posible obtener la ubicación actual de este dispositivo.</Alert>
+          </CardContent>
+        </Card>
+      </Layout>
+    </>
+  }
+
+  if (errors) {
+    return <>
+      <Layout>
+        <Card>
+          <CardContent>
+            <Alert severity="error">{ errors.message }</Alert>
+          </CardContent>
+        </Card>
+      </Layout>
+    </>
+  }
+
   if (!currentCategory) {
-    return null;
+    return <>
+      <Layout>
+        <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', minHeight: 400 }}>
+          <CircularProgress />
+          <p>Cargando pronóstico...</p>
+        </Box>
+      </Layout>
+    </>
   }
 
   return <>
-    <Grid container spacing={1}>
-      <Grid item md={3}></Grid>
-      <Grid item sm={12} md={6}>
-        <Box>
-          <Header/>
-          <Footer/>
-        </Box>
-      </Grid>
-    </Grid>
+    <Layout>
+      <Box>
+        <Header loading={loading} />
+        <Footer/>
+      </Box>
+    </Layout>
   </>
 }
 

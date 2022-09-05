@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader } from "@mui/material";
+import { Card, CardContent, CardHeader, CircularProgress } from "@mui/material";
 import { Box } from "@mui/system";
 import { useSelector } from "react-redux";
 import LocationSelect from "./header/LocationSelect";
@@ -7,7 +7,11 @@ import HumidityIcon from '@mui/icons-material/Grain';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import TempIcon from '@mui/icons-material/Thermostat';
 
-const Header = () => {
+interface HeaderProps {
+  loading: boolean,
+}
+
+const Header = ({ loading }: HeaderProps) => {
   const weatherData = useSelector((state: any) => state.weather.weatherData.data);
   const currentCategory = useSelector((state: any) => state.weather.currentCategory);
   const { currentItem } = currentCategory;
@@ -61,8 +65,9 @@ const Header = () => {
         subheader={formatDate(now)}
       />
       <CardContent>
-        <Box sx={{ display: 'flex', justifyContent: 'center', minHeight: 100}}>
-          <CurrentWeather />
+        <Box sx={{ display: 'flex', justifyContent: 'center', minHeight: 140}}>
+          {loading && <CircularProgress/>}
+          {!loading && <CurrentWeather />}
         </Box>
       </CardContent>
     </Card>
