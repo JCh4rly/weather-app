@@ -77,6 +77,8 @@ readme
 - Luego muestra el pronóstico para la ubicación actual incluyendo temperatura, viento, humedad y visibilidad
 - En la parte inferior se muestra el pronóstico extendido para 5 días, al seleccionar cada uno se muestra
 la información de ese día
+- Al seleccionar un pronóstico en la parte inferior, los datos mostrados corresponden a la hora actual 
+(cada ítem cuenta con 8 cortes de clima cubriendo un rango de 3 horas cada uno)
 - En la parte superior derecha se puede seleccionar otra ubicación predefinida
 
 ## Pendientes y deuda técnica
